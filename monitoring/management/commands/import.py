@@ -12,14 +12,6 @@ class Command(BaseCommand):
     Import servers, users and login attempts into the database
     """
 
-    # known uncommon date format
-    # if uncommon format not in this list, should raise a ValueError
-    exception_date_patterns = [
-        "[1-9]{1,2}\\\[0-9]{1,2}\\\[0-9]{1,2}",
-        "[1-9]{1,2}\|[0-9]{1,2}\|[0-9]{1,2}",
-        "[1-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,2}"
-    ]
-
     def add_arguments(self, parser):
 
         """
