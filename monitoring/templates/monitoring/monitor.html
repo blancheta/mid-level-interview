@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h1>Servers monitoring</h1>
+
+    <div id="servers">
+        {% for server in servers %}
+            <div class="server" style="display:inline-block; vertical-align: text-top">
+                <div><h2>{{ server.ip }} - {{ server.name }}</h2></div>
+                <div>
+                    <ul>
+                        {% for login in server.login_set.all %}
+                            <li>
+                                <div><b>{{ login.time }}</b></div>
+                                <div>{{ login.user.username}} - {{ login.user.fullname }} </div>
+                                <div>
+                                    <ul>
+                                    {%  for contact in login.user.contact_set.all %}
+                                        <li>
+                                            {{ contact.identifier }}
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+     </div>
+
+</body>
+</html>
