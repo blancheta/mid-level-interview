@@ -36,8 +36,8 @@ class Server(models.Model):
     Server Model
     """
 
-    name = models.CharField(max_length=30)
-    ip = models.CharField(max_length=15)
+    name = models.CharField(max_length=30, unique=True)
+    ip = models.CharField(max_length=15, unique=True)
 
 
 class Login(models.Model):

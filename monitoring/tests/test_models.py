@@ -1,5 +1,6 @@
 import datetime
 from unittest import TestCase
+from django.db.utils import IntegrityError
 import pytz
 from monitoring.models import User, Contact, Server, Login
 
@@ -23,6 +24,22 @@ class TestsUserModel(TestCase):
 
         self.assertIsInstance(user, User)
 
+    def test_can_create_2_users_with_same_name(self):
+
+        """
+        Canot create 2 users with the same username
+        """
+
+        User.objects.create(
+            username="terrence",
+            fullname="Terry"
+        )
+
+        with self.assertRaises(IntegrityError):
+            User.objects.create(
+                username="terrence",
+                fullname="Terry"
+            )
 
 class TestsContactModel(TestCase):
 
@@ -77,6 +94,31 @@ class TestsServerModel(TestCase):
             ip="192.168.1.1",
         )
 
+    def test_cannnot_create_two_server_with_same_ip_or_name(self):
+
+        """
+        Cannot create 2 servers with the same ip
+        Should raise an exception
+        """
+
+        Server.objects.create(
+            name="bravi",
+            ip="192.168.1.4",
+        )
+
+        # same ip
+        with self.assertRaises(IntegrityError):
+            Server.objects.create(
+                name="bravo",
+                ip="192.168.1.4",
+            )
+        # same name
+        with self.assertRaises(IntegrityError):
+            Server.objects.create(
+                name="bravi",
+                ip="192.168.1.10",
+            )
+
 
 class TestsLoginModel(TestCase):
 
@@ -96,8 +138,8 @@ class TestsLoginModel(TestCase):
         )
 
         server = Server.objects.create(
-            name="bravo",
-            ip="192.168.1.1",
+            name="bravissimo",
+            ip="192.168.1.2",
         )
 
         time = datetime.datetime.today().replace(tzinfo=pytz.utc)
